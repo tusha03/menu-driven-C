@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define clrscr() system("cls");
 
-void check();
-void getIntegerInput(int inputCount);
-void getDecimalInput(int inputCount);
+void check(char yMenu[], char nMenu[]);
+void proceed();
 
 // Program Menu Function Declarations Start
 void mainMenu();
@@ -30,19 +30,38 @@ void fibonacciSeriesProgramsMenu();
 int getChoice();
 int getIntNumber();
 
+void getIntegerNumbers(int intArray[], int inputCount);
+void getDecimalNumbers(float floatArray[], int inputCount);
+
+void checkPrimeNumber();
+void checkPosNegNumber();
+void checkOddEvenNumber();
+void checkPalindronNumber();
+void checkArmstrongNumber();
+void printTable();
+void addTwoIntNumber();
+void subTwoIntNumber();
+void mulTwoIntNumber();
+void divTwoIntNumber();
+void greatestTwoIntNumber();
+void greatestThreeIntNumber();
+void addTwoDecNumber();
+void subTwoDecNumber();
+void divTwoDecNumber();
+void greatestTwoDecNumber();
+
 char ch;
 int i, n, n1, n2, n3;
-float fn1, fn2, fn3;
+float fn1;
 
 int main()
 {
-	int count, rev, rem, back, sum;
+	int count;
 	long ln;
-	int choice;
-	int numberToCheckPosNeg, numberToCheckOddEven, numberToCheckPrime, numberToCheckPalindron, numberToCheckArmstrong, tableNumber;
 main:
 	do // main menu
 	{
+		getch();
 		clrscr();
 		mainMenu();
 		switch (getChoice())
@@ -64,18 +83,11 @@ main:
 						{
 						case 1:
 							clrscr();
-							printf("\n\n\t ADDITION OF 2 INTEGERS");
-							printf("\n-------------------------------------\n");
-							getIntegerInput(2);
-							printf("\n\n Addition of %d and %d is %d", n1, n2, n1 + n2);
+							addTwoIntNumber();
 							break;
 						case 2:
 							clrscr();
-							printf("\n\n\t ADDITION OF 2 FLOATS");
-							printf("\n-----------------------------------\n");
-							getDecimalInput(2);
-							printf("\n Addition of %.2f and %.2f is %.2f", fn1, fn2, fn1 + fn2);
-
+							addTwoDecNumber();
 							break;
 						case 3:
 							goto arth;
@@ -86,10 +98,8 @@ main:
 						default:
 							printf("\n Invalid Option... Enter Valid Option");
 						}
-						printf("\n\n Enter Any Key to Proceed...");
-						getch();
-						printf("\n\n Press Y to go to Addition Menu OR\n Press N to go to MAIN NENU\n Enter = ");
-						check();
+						proceed();
+						check("Addition", "Main");
 						if (ch == 'n' || ch == 'N')
 							goto main;
 					} while (ch == 'Y' || ch == 'y');
@@ -104,19 +114,11 @@ main:
 						{
 						case 1:
 							clrscr();
-							printf("\n\t SUBTRACTION OF 2 INTEGERS");
-							printf("\n---------------------------------------\n");
-							getIntegerInput(2);
-							printf("\n Subtraction of %d and %d is %d", n1, n2, n1 - n2);
-
+							subTwoIntNumber();
 							break;
 						case 2:
 							clrscr();
-							printf("\n\t SUBTRACTION OF 2 FLOATS");
-							printf("\n---------------------------------------\n");
-							getDecimalInput(2);
-							printf("\n Subtraction of %.2f and %.2f is %.2f", fn1, fn2, fn1 - fn2);
-
+							subTwoDecNumber();
 							break;
 						case 3:
 							goto arth;
@@ -127,10 +129,8 @@ main:
 						default:
 							printf("\n Invalid Option... Enter Valid Option");
 						}
-						printf("\n\n Enter Any Key to Proceed...");
-						getch();
-						printf("\n\n Press Y to go to Subtraction Menu OR\n Press N to go to MAIN NENU\n Enter = ");
-						check();
+						proceed();
+						check("Subtraction", "Main");
 						if (ch == 'n' || ch == 'N')
 							goto main;
 					} while (ch == 'Y' || ch == 'y');
@@ -145,18 +145,14 @@ main:
 						{
 						case 1:
 							clrscr();
-							printf("\n\t MULTIPLICATION OF 2 INTEGERS");
-							printf("\n----------------------------------------\n");
-							getIntegerInput(2);
-							printf("\n Multiplication of %d and %d is %d", n1, n2, n1 * n2);
-
+							mulTwoIntNumber();
 							break;
 						case 2:
 							clrscr();
 							printf("\n\t MULTIPLICATION OF 2 FLOATS");
 							printf("\n----------------------------------------\n");
-							getIntegerInput(2);
-							printf("\n Multiplication of %.2f and %.2f is %.2f", fn1, fn2, fn1 * fn2);
+							float mulTwoDecNumArray[2];
+							printf("\n Multiplication of %.2f and %.2f is %.2f", mulTwoDecNumArray[0], mulTwoDecNumArray[1], mulTwoDecNumArray[0] * mulTwoDecNumArray[1]);
 							break;
 						case 3:
 							goto arth;
@@ -167,10 +163,8 @@ main:
 						default:
 							printf("\n Invalid Option... Enter Valid Option");
 						}
-						printf("\n\n Enter Any Key to Proceed...");
-						getch();
-						printf("\n\n Press Y to go to Multiplication Menu OR\n Press N to go to MAIN NENU\n Enter = ");
-						check();
+						proceed();
+						check("Multiplication", "Main");
 						if (ch == 'n' || ch == 'N')
 							goto main;
 					} while (ch == 'Y' || ch == 'y');
@@ -185,17 +179,11 @@ main:
 						{
 						case 1:
 							clrscr();
-							printf("\n\t DIVISION OF 2 INTEGERS");
-							printf("\n----------------------------------------\n");
-							getIntegerInput(2);
-							printf("\n Division of %d and %d is %d", n1, n2, n1 * n2);
+							divTwoIntNumber();
 							break;
 						case 2:
 							clrscr();
-							printf("\n\t DIVISION OF 2 FLOATS");
-							printf("\n----------------------------------------\n");
-							getIntegerInput(2);
-							printf("\n Division of %.2f and %.2f is %.2f", fn1, fn2, fn1 * fn2);
+							divTwoDecNumber();
 							break;
 						case 3:
 							goto arth;
@@ -206,10 +194,8 @@ main:
 						default:
 							printf("\n Invalid Option... Enter Valid Option");
 						}
-						printf("\n\n Enter Any Key to Proceed...");
-						getch();
-						printf("\n\n Press Y to go to Division Menu OR\n Press N to go to MAIN NENU\n Enter = ");
-						check();
+						proceed();
+						check("Division", "Main");
 						if (ch == 'n' || ch == 'N')
 							goto main;
 					} while (ch == 'Y' || ch == 'y');
@@ -237,7 +223,7 @@ main:
 					printf("\n ------------------------------\n");
 					printf("\n Enter Fahrenheit = ");
 					scanf("%d", &n1);
-					printf("\n Degree = %.2f", (n1 - 32) * 5 / 9);
+					printf("\n Degree = %.2f", (n1 - 32) * 5.0 / 9.0);
 					break;
 				case 8:
 					clrscr();
@@ -245,7 +231,7 @@ main:
 					printf("\n ------------------------------\n");
 					printf("\n Enter Degree = ");
 					scanf("%d", &n1);
-					printf("\n Fahrenheit = %.2f", (n1 * 9 / 5) + 32);
+					printf("\n Fahrenheit = %.2f", (n1 * 9.0 / 5.0) + 32);
 					break;
 				case 9:
 					clrscr();
@@ -294,10 +280,8 @@ main:
 				default:
 					printf("\n Invalid Option... Enter Valid Option");
 				}
-				printf("\n\n Enter Any Key to Proceed...");
-				getch();
-				printf("\n\n Press Y to go to Arthmatic Menu OR\n Press N to go to MAIN MENU\n Enter = ");
-				check();
+				proceed();
+				check("Arthmatic", "Main");
 				if (ch == 'n' || ch == 'N')
 					goto main;
 			} while (ch == 'y' || ch == 'Y');
@@ -319,27 +303,11 @@ main:
 						{
 						case 1:
 							clrscr();
-							printf("\n\n GREATEST OF 2 INTEGERS");
-							printf("\n -----------------------------\n");
-							getIntegerInput(2);
-							if (n1 == n2)
-								printf("\n Both Numbers Are Same");
-							else if (n1 > n2)
-								printf("\n %d is Greatest Number", n1);
-							else
-								printf("\n %d is Greatest Number", n2);
+							greatestTwoIntNumber();
 							break;
 						case 2:
 							clrscr();
-							printf("\n\n GREATEST OF 2 FLOATS");
-							printf("\n -----------------------------\n");
-							getDecimalInput(2);
-							if (fn1 == fn2)
-								printf("\n Both Numbers Are Same");
-							else if (fn1 > fn2)
-								printf("\n %.2f is Greatest Number", fn1);
-							else
-								printf("\n %.2f is Greatest Number", fn2);
+							greatestTwoDecNumber();
 							break;
 						case 4:
 							goto main;
@@ -350,10 +318,8 @@ main:
 						default:
 							printf("\n Invalid Option... Enter Valid Option");
 						}
-						printf("\n\n Enter Any Key to Proceed...");
-						getch();
-						printf("\n\n Press 'Y' to go Greatest of 2 Number Menu \n Press 'N' to go Main Menu = ");
-						check();
+						proceed();
+						check("Greatest of 2 Number", "Main");
 						if (ch == 'n' || ch == 'N')
 							goto main;
 					} while (ch == 'Y' || ch == 'y');
@@ -368,32 +334,21 @@ main:
 						{
 						case 1:
 							clrscr();
-							printf("\n\n GREATEST OF 3 INTEGERS");
-							printf("\n -----------------------------\n");
-							getIntegerInput(3);
-							if (n1 == n2 && n2 == n3)
-								printf("\n All Numbers Are Same");
-							else if (n1 > n2 && n1 > n3)
-								printf("\n %d is Greatest Number", n1);
-							else if (n2 > n3)
-								printf("\n %d is Greatest Number", n2);
-							else
-								printf("\n %d is Greatest Number", n3);
-
+							greatestThreeIntNumber();
 							break;
 						case 2:
 							clrscr();
 							printf("\n\n GREATEST OF 3 FLOATS");
 							printf("\n -----------------------------\n");
-							getDecimalInput(3);
-							if (fn1 == fn2 && fn2 == fn3)
+							float greatestThreeDecNumArray[3];
+							if (greatestThreeDecNumArray[0] == greatestThreeDecNumArray[1] && greatestThreeDecNumArray[1] == greatestThreeDecNumArray[2])
 								printf("\n All Numbers Are Same");
-							else if (fn1 > fn2 && fn1 > fn3)
-								printf("\n %.2f is Greatest Number", fn1);
-							else if (fn2 > fn3)
-								printf("\n %.2f is Greatest Number", fn2);
+							else if (greatestThreeDecNumArray[0] > greatestThreeDecNumArray[1] && greatestThreeDecNumArray[0] > greatestThreeDecNumArray[2])
+								printf("\n %.2f is Greatest Number", greatestThreeDecNumArray[0]);
+							else if (greatestThreeDecNumArray[1] > greatestThreeDecNumArray[2])
+								printf("\n %.2f is Greatest Number", greatestThreeDecNumArray[1]);
 							else
-								printf("\n %.2f is Greatest Number", fn3);
+								printf("\n %.2f is Greatest Number", greatestThreeDecNumArray[2]);
 
 							break;
 						case 3:
@@ -405,33 +360,18 @@ main:
 						default:
 							printf("\n Invalid Option... Enter Valid Option");
 						}
-						printf("\n\n Press 'Y' to go Greatest of Number Menu \n Press 'N' to go Main Menu = ");
-						check();
+						check("Greatest of Number", "Main");
 						if (ch == 'n' || ch == 'N')
 							goto main;
 					} while (ch == 'Y' || ch == 'y');
 					break;
 				case 3:
 					clrscr();
-					printf("\n\n FIND POSITIVE OR NEGATIVE NUMBER");
-					printf("\n -------------------------------------\n");
-					numberToCheckPosNeg = getIntNumber();
-					if (numberToCheckPosNeg == 0)
-						printf("\n 0 is Nor Positive OR Negative");
-					else if (numberToCheckPosNeg > 0)
-						printf("\n %d is Positive Number", numberToCheckPosNeg);
-					else
-						printf("\n %d is Negative Number", numberToCheckPosNeg);
+					checkPosNegNumber();
 					break;
 				case 4:
 					clrscr();
-					printf("\n\n FIND ODD OR EVEN NUMBER");
-					printf("\n ----------------------------\n");
-					numberToCheckOddEven = getIntNumber();
-					if (numberToCheckOddEven % 2 == 0)
-						printf("\n %d is Even Number", numberToCheckOddEven);
-					else
-						printf("\n %d is Odd Number", numberToCheckOddEven);
+					checkOddEvenNumber();
 					break;
 				case 5:
 					clrscr();
@@ -455,10 +395,8 @@ main:
 				default:
 					printf("\n Invalid Option... Enter Valid a Option");
 				}
-				printf("\n\n Enter Any Key to Proceed...");
-				getch();
-				printf("\n\n Press Y to go to If-Else Menu OR\n Press N to go to MAIN MENU\n Enter = ");
-				check();
+				proceed();
+				check("If-Else", "Main");
 				if (ch == 'n' || ch == 'N')
 					goto main;
 			} while (ch == 'y' || ch == 'Y');
@@ -480,22 +418,7 @@ main:
 						{
 						case 1:
 							clrscr();
-							printf("\n\n CHECK THE NUMBER IS PRIME OR NOT");
-							printf("\n --------------------------------------\n");
-							numberToCheckPrime = getIntNumber();
-							count = 1;
-							for (i = 2; numberToCheckPrime / 2 > i; i++)
-							{
-								if (numberToCheckPrime % i == 0)
-								{
-									count++;
-									break;
-								}
-							}
-							if (count == 1)
-								printf("\n %d is Prime Number", numberToCheckPrime);
-							else
-								printf("\n %d is Not Prime Number", numberToCheckPrime);
+							checkPrimeNumber();
 
 							break;
 						case 2:
@@ -530,8 +453,7 @@ main:
 						default:
 							printf("\n Invalid Option... Enter Valid Option");
 						}
-						printf("\n\n Press 'Y' to go Prime Number Menu \n Press 'N' to go Main Menu = ");
-						check();
+						check("Prime Number", "Main");
 						if (ch == 'n' || ch == 'N')
 							goto main;
 					} while (ch == 'Y' || ch == 'y');
@@ -610,71 +532,23 @@ main:
 						default:
 							printf("\n Invalid Option... Enter Valid Option");
 						}
-						printf("\n\n Press 'Y' to go Fibonacci Series Menu /n Press 'N' to go Main Menu = ");
-						check();
+						check("Fibonacci Series", "Main");
 						if (ch == 'n' || ch == 'N')
 							goto main;
 					} while (ch == 'Y' || ch == 'y');
 					break;
 				case 3:
 					clrscr();
-					printf("\n\n CHECK FOR PALINDRON NUMBER");
-					printf("\n --------------------------------\n");
-					numberToCheckPalindron = getIntNumber();
-					rev = 0;
-					back = numberToCheckPalindron;
-					while (numberToCheckPalindron != 0)
-					{
-						rev = numberToCheckPalindron % 10 + rev * 10;
-						numberToCheckPalindron = numberToCheckPalindron / 10;
-					}
-					if (back == rev)
-						printf("\n %d is Palindron Number", rev);
-					else
-						printf("\n %d is Not Palindron Number", back);
-
+					checkPalindronNumber();
 					break;
 				case 4:
 					clrscr();
-					printf("\n\n CHECK FOR ARMSTRONG NUMBER");
-					printf("\n -------------------------------\n");
-					numberToCheckArmstrong = getIntNumber();
-					sum = 0;
-					back = numberToCheckArmstrong;
-					count = 0;
-					while (numberToCheckArmstrong != 0)
-					{
-						numberToCheckArmstrong = numberToCheckArmstrong / 10;
-						count = count + 1;
-					}
-					numberToCheckArmstrong = back;
-					while (numberToCheckArmstrong != 0)
-					{
-						rem = numberToCheckArmstrong % 10;
-						numberToCheckArmstrong = numberToCheckArmstrong / 10;
-						n1 = rem;
-
-						while (count != 0)
-						{
-
-							n1 = n1 * rem;
-							count = count - 1;
-						}
-						sum = sum + n1;
-					}
-					if (back == sum)
-						printf("\n %d is Armstrong Number And Sum = %d", back, sum);
-					else
-						printf("\n %d is Not Armstrong Number", back);
-
+					checkArmstrongNumber();
 					break;
 				case 1:
 					clrscr();
-					printf("\n\n PRINT TABLE OF ANY NUMBER");
-					printf("\n ------------------------------\n");
-					tableNumber = getIntNumber();
-					for (i = 1; 10 >= i; i++)
-						printf("\n %d X %.2d = %d", tableNumber, i, tableNumber * i);
+					printTable();
+
 					break;
 				case 7:
 					goto main;
@@ -683,11 +557,11 @@ main:
 					printf("\n\n CHECK THE TYPE OF TRIANGLE");
 					printf("\n ------------------------------");
 					printf("\n Enter First Side = ");
-					scanf("%d", n1);
+					scanf("%d", &n1);
 					printf("\n Enter Second Side = ");
-					scanf("%d", n2);
+					scanf("%d", &n2);
 					printf("\n Enter Third Side = ");
-					scanf("%d", n3);
+					scanf("%d", &n3);
 					if (n1 == n2 && n2 == n3)
 						printf("\n Equilateral Triangle");
 					else if (n1 == n2 || n1 == n3 || n2 == n3)
@@ -703,8 +577,7 @@ main:
 				default:
 					printf("\n Invalid Option... Enter Valid a Option");
 				}
-				printf("\n\n Press Y to go to Loop Menu OR\n Press N to go to MAIN MENU\n Enter = ");
-				check();
+				check("Loop", "Main");
 				if (ch == 'n' || ch == 'N')
 					goto main;
 			} while (ch == 'y' || ch == 'Y');
@@ -714,8 +587,7 @@ main:
 		default:
 			printf("\n Invalid Option... Enter Valid a Option");
 		}
-		printf("\n\n Press Y to go to MAIN MENU OR\n Press N to Exit\n Enter = ");
-		check();
+		check("Main", "Exit");
 	} while (ch == 'Y' || ch == 'y');
 	printf("\n Press Any Key to Exit..");
 	getch();
@@ -735,8 +607,12 @@ main:
  *   - Prompts user to enter a valid option (Y/N).
  *   - Displays timeout message and exits if no valid input is received.
  */
-void check()
+void check(char yMenu[], char nMenu[])
 {
+	if (strcmp("Exit", nMenu) == 0)
+		printf("\n\nPress Y to go to %s Menu OR\nPress N to go to %s\nEnter = ", yMenu, nMenu);
+	else
+		printf("\n\nPress Y to go to %s Menu OR\nPress N to go to %s Menu\nEnter = ", yMenu, nMenu);
 	for (i = 0; i <= 2; i++)
 	{
 		scanf(" %c", &ch);
@@ -744,74 +620,38 @@ void check()
 			return;
 		else if (i == 2)
 		{
-			printf("\n TIMEOUT...");
-			printf("\n Enter Any Key to Exit...");
+			printf("\nTIMEOUT...");
+			printf("\nEnter Any Key to Exit...");
 			getch();
 			exit(0);
 		}
 		else
-			printf("\n Please Enter (Y/N) Valid Option = ");
+			printf("\nPlease Enter (Y/N) Valid Option = ");
 	}
 }
 
-/**
- * Function: getIntegerInput
- * --------------------------
- * Reads integer inputs from the console based on the specified inputCount.
- *
- * If inputCount == 2:
- *   - Prompts for two integer numbers.
- *
- * If inputCount == 3:
- *   - Prompts for three integer numbers.
- *
- * Parameters:
- *   inputCount - The number of integer inputs to read (must be 2 or 3).
- */
-void getIntegerInput(int inputCount)
+void getIntegerNumbers(int intArray[], int inputCount)
 {
-	printf("\n Enter First Number = ");
-	scanf("%d", &n1);
-	printf("\n Enter Second Number = ");
-	scanf("%d", &n2);
-	if (inputCount == 3)
+	for (int i = 0; i < inputCount; i++)
 	{
-		printf("\n Enter Third Number = ");
-		scanf("%d", &n3);
+		printf("%d. Enter Number = ", i + 1);
+		scanf("%d", &intArray[i]);
 	}
 }
 
-/**
- * Function: getDecimalInput
- * --------------------------
- * Reads decimal (floating-point) inputs from the console based on the specified inputCount.
- *
- * If inputCount == 2:
- *   - Prompts for two decimal numbers.
- *
- * If inputCount == 3:
- *   - Prompts for three decimal numbers.
- *
- * Parameters:
- *   inputCount - The number of decimal inputs to read (must be 2 or 3).
- */
-void getDecimalInput(int inputCount)
+void getDecimalNumbers(float floatArray[], int inputCount)
 {
-	printf("\n Enter First Number = ");
-	scanf("%f", &fn1);
-	printf("\n Enter Second Number = ");
-	scanf("%f", &fn2);
-	if (inputCount == 3)
+	for (int i = 0; i < inputCount; i++)
 	{
-		printf("\n Enter Third Number = ");
-		scanf("%f", &fn3);
+		printf("%d. Enter Number = ", i + 1);
+		scanf("%f", &floatArray[i]);
 	}
 }
 
 int getIntNumber()
 {
 	int num;
-	printf("\n Enter Any Number = ");
+	printf("\nEnter Any Number = ");
 	scanf("%d", &num);
 	return num;
 }
@@ -820,28 +660,28 @@ int getIntNumber()
 void mainMenu()
 {
 	printf("\n------------------------");
-	printf("\n\t MAIN MENU");
-	printf("\n------------------------");
-	printf("\n\n 1. Arthmatic Programs");
-	printf("\n 2. If-Else Programs");
-	printf("\n 3. Loops Programs");
-	printf("\n 4. Exit");
+	printf("\n\tMAIN MENU");
+	printf("\n------------------------\n");
+	printf("\n1. Arthmatic Programs");
+	printf("\n2. If-Else Programs");
+	printf("\n3. Loops Programs");
+	printf("\n4. Exit");
 }
 
 void arithmaticProgramsMenu()
 {
 	printf("\n-----------------------------------");
-	printf("\n\t ARITHMATIC PROGRAMS");
-	printf("\n------------------------------------");
-	printf("\n\n 1. Addition of 2 Numbers");
-	printf("\n 2. Subtraction of 2 Numbers");
-	printf("\n 3. Multiplication of 2 Numbers");
-	printf("\n 4. Division of 2 Numbers");
-	printf("\n 5. KM to M Converter");
-	printf("\n 6. M to KM Converter");
-	printf("\n 7. Fahrenhiet to Degree Converter");
-	printf("\n 8. Degree to Fahrenhiet Converter");
-	printf("\n 9. For Claculation of Simple Interest");
+	printf("\n\tARITHMATIC PROGRAMS");
+	printf("\n------------------------------------\n");
+	printf("\n1. Addition of 2 Numbers");
+	printf("\n2. Subtraction of 2 Numbers");
+	printf("\n3. Multiplication of 2 Numbers");
+	printf("\n4. Division of 2 Numbers");
+	printf("\n5. KM to M Converter");
+	printf("\n6. M to KM Converter");
+	printf("\n7. Fahrenhiet to Degree Converter");
+	printf("\n8. Degree to Fahrenhiet Converter");
+	printf("\n9. For Claculation of Simple Interest");
 	printf("\n10. Student Progress");
 	printf("\n11. Back to Main Menu");
 	printf("\n12. Exit");
@@ -850,127 +690,127 @@ void arithmaticProgramsMenu()
 void additionOfTwoNumbersMenu()
 {
 	printf("\n--------------------------------------");
-	printf("\n\t ADDITION OF 2 NUMBERS");
-	printf("\n---------------------------------------");
-	printf("\n\n 1. Addition of 2 Integers");
-	printf("\n 2. Addition of 2 Floats");
-	printf("\n 3. Back to Arithmatic Menu");
-	printf("\n 4. Back to Main Menu");
-	printf("\n 5. Exit");
+	printf("\n\tADDITION OF 2 NUMBERS");
+	printf("\n---------------------------------------\n");
+	printf("\n1. Addition of 2 Integers");
+	printf("\n2. Addition of 2 Floats");
+	printf("\n3. Back to Arithmatic Menu");
+	printf("\n4. Back to Main Menu");
+	printf("\n5. Exit");
 }
 
 void subtractionOfTwoNumbersMenu()
 {
 	printf("\n-----------------------------------------");
-	printf("\n\t SUBTRACTION OF 2 NUMBERS");
-	printf("\n-----------------------------------------");
-	printf("\n\n 1. Subtraction of 2 Integers");
-	printf("\n 2. Subtraction of 2 Floats");
-	printf("\n 3. Back to Arithmatic Menu");
-	printf("\n 4. Back to Main Menu");
-	printf("\n 5. Exit");
+	printf("\n\tSUBTRACTION OF 2 NUMBERS");
+	printf("\n-----------------------------------------\n");
+	printf("\n1. Subtraction of 2 Integers");
+	printf("\n2. Subtraction of 2 Floats");
+	printf("\n3. Back to Arithmatic Menu");
+	printf("\n4. Back to Main Menu");
+	printf("\n5. Exit");
 }
 
 void multiplicationOfTwoNumbersMenu()
 {
 	printf("\n----------------------------------------------");
-	printf("\n\t MULTIPLICATION OF 2 NUMBERS");
-	printf("\n----------------------------------------------");
-	printf("\n\n 1. Multiplication of 2 Integers");
-	printf("\n 2. Multiplication of 2 Floats");
-	printf("\n 3. Back to Arithmatic Menu");
-	printf("\n 4. Back to Main Menu");
-	printf("\n 5. Exit");
+	printf("\n\tMULTIPLICATION OF 2 NUMBERS");
+	printf("\n----------------------------------------------\n");
+	printf("\n1. Multiplication of 2 Integers");
+	printf("\n2. Multiplication of 2 Floats");
+	printf("\n3. Back to Arithmatic Menu");
+	printf("\n4. Back to Main Menu");
+	printf("\n5. Exit");
 }
 
 void divisionOfTwoNumbersMenu()
 {
 	printf("\n---------------------------------------");
-	printf("\n\t DIVISION OF 2 NUMBERS");
-	printf("\n---------------------------------------");
-	printf("\n\n 1. Division of 2 Integers");
-	printf("\n 2. Division of 2 Floats");
-	printf("\n 3. Back to Arithmatic Menu");
-	printf("\n 4. Back to Main Menu");
-	printf("\n 5. Exit");
+	printf("\n\tDIVISION OF 2 NUMBERS");
+	printf("\n---------------------------------------\n");
+	printf("\n1. Division of 2 Integers");
+	printf("\n2. Division of 2 Floats");
+	printf("\n3. Back to Arithmatic Menu");
+	printf("\n4. Back to Main Menu");
+	printf("\n5. Exit");
 }
 
 void ifElseProgramsMenu()
 {
 	printf("\n----------------------------------");
-	printf("\n\t IF-ELSE PROGRAMS");
-	printf("\n----------------------------------");
-	printf("\n\n 1. Greatest of 2 Numbers");
-	printf("\n 2. Greatest of 3 Numbers");
-	printf("\n 3. +ve or -ve Numbers");
-	printf("\n 4. Odd or Even");
-	printf("\n 5. Profit or Loss");
-	printf("\n 6. Back to Main Menu");
-	printf("\n 7. Exit");
+	printf("\n\tIF-ELSE PROGRAMS");
+	printf("\n----------------------------------\n");
+	printf("\n1. Greatest of 2 Numbers");
+	printf("\n2. Greatest of 3 Numbers");
+	printf("\n3. +ve or -ve Numbers");
+	printf("\n4. Odd or Even");
+	printf("\n5. Profit or Loss");
+	printf("\n6. Back to Main Menu");
+	printf("\n7. Exit");
 }
 
 void greatestOfTwoNumbersMenu()
 {
 	printf("\n-----------------------------------------");
-	printf("\n\t GREATEST OF 2 NUMBERS");
-	printf("\n------------------------------------------");
-	printf("\n\n 1. Greatest of 2 Integers");
-	printf("\n 2. Greatest of 2 Floats");
-	printf("\n 3. Back to If-Else Menu");
-	printf("\n 4. Back to Main Menu");
-	printf("\n 5. Exit");
+	printf("\n\tGREATEST OF 2 NUMBERS");
+	printf("\n------------------------------------------\n");
+	printf("\n1. Greatest of 2 Integers");
+	printf("\n2. Greatest of 2 Floats");
+	printf("\n3. Back to If-Else Menu");
+	printf("\n4. Back to Main Menu");
+	printf("\n5. Exit");
 }
 
 void greatestOfThreeNumbersMenu()
 {
 	printf("\n-------------------------------------");
 	printf("\n\t GREATEST OF 3 NUMBERS");
-	printf("\n-------------------------------------");
-	printf("\n\n 1. Greatest of 3 Integers");
-	printf("\n 2. Greatest of 3 Floats");
-	printf("\n 3. Back to If-Else Menu");
-	printf("\n 4. Back to Main Menu");
-	printf("\n 5. Exit");
+	printf("\n-------------------------------------\n");
+	printf("\n1. Greatest of 3 Integers");
+	printf("\n2. Greatest of 3 Floats");
+	printf("\n3. Back to If-Else Menu");
+	printf("\n4. Back to Main Menu");
+	printf("\n5. Exit");
 }
 
 void loopMenu()
 {
 	printf("\n--------------------------");
-	printf("\n\t LOOP MENU");
-	printf("\n--------------------------");
-	printf("\n\n 1. Table of Any Number");
-	printf("\n 2. For Prime Number");
-	printf("\n 3. Check for Palindrome Number");
-	printf("\n 4. Check for Armstrong Number");
-	printf("\n 5. Fibonacci Series");
-	printf("\n 6. Check the Type of Triangle");
-	printf("\n 7. Back to Main Menu");
-	printf("\n 8. Exit");
+	printf("\n\tLOOP MENU");
+	printf("\n--------------------------\n");
+	printf("\n1. Table of Any Number");
+	printf("\n2. For Prime Number");
+	printf("\n3. Check for Palindrome Number");
+	printf("\n4. Check for Armstrong Number");
+	printf("\n5. Fibonacci Series");
+	printf("\n6. Check the Type of Triangle");
+	printf("\n7. Back to Main Menu");
+	printf("\n8. Exit");
 }
 
 void primeNumberMenu()
 {
 	printf("\n----------------------------------");
-	printf("\n\t PRIME NUMBER MENU");
-	printf("\n----------------------------------");
-	printf("\n\n 1. Check the Number is Prime  or Not");
-	printf("\n 2. Print Prime Number Up to N Numbers");
-	printf("\n 3. Back to Loop Menu");
-	printf("\n 4. Back to Main Menu");
-	printf("\n 5. Exit");
+	printf("\n\tPRIME NUMBER MENU");
+	printf("\n----------------------------------\n");
+	printf("\n1. Check the Number is Prime  or Not");
+	printf("\n2. Print Prime Number Up to N Numbers");
+	printf("\n3. Back to Loop Menu");
+	printf("\n4. Back to Main Menu");
+	printf("\n5. Exit");
 }
 
 void fibonacciSeriesProgramsMenu()
 {
 	printf("\n------------------------------------------");
-	printf("\n\t FIBONACCI SERIES PROGRAMS");
-	printf("\n------------------------------------------");
-	printf("\n\n 1. Fibonacci Series Up to N Number");
-	printf("\n 2. Fibonacci Series Up to N Terms");
-	printf("\n 3. Reverse Fibonacci Series");
-	printf("\n 4. Back to Loop Menu");
-	printf("\n 5. Back to Main Menu");
-	printf("\n 6. Exit");
+	printf("\n\tFIBONACCI SERIES PROGRAMS");
+	printf("\n------------------------------------------\n");
+	printf("\n1. Fibonacci Series Up to N Number");
+	printf("\n2. Fibonacci Series Up to N Terms");
+	printf("\n3. Reverse Fibonacci Series");
+	printf("\n4. Back to Loop Menu");
+	printf("\n5. Back to Main Menu");
+	printf("\n6. Exit");
 }
 
 // Program Menu Function Definitions End
@@ -978,7 +818,225 @@ void fibonacciSeriesProgramsMenu()
 int getChoice()
 {
 	int choice;
-	printf("\n\n Enter Your Choice = ");
+	printf("\n\nEnter Your Choice = ");
 	scanf("%d", &choice);
 	return choice;
+}
+
+void checkPrimeNumber()
+{
+	printf("\nCHECK THE NUMBER IS PRIME OR NOT");
+	printf("\n--------------------------------------\n");
+	int numberToCheckPrime = getIntNumber();
+	int count = 1;
+	for (i = 2; numberToCheckPrime / 2 > i; i++)
+	{
+		if (numberToCheckPrime % i == 0)
+		{
+			count++;
+			break;
+		}
+	}
+	if (count == 1)
+		printf("\n%d is Prime Number", numberToCheckPrime);
+	else
+		printf("\n%d is Not Prime Number", numberToCheckPrime);
+}
+
+void checkPosNegNumber()
+{
+	printf("\nFIND POSITIVE OR NEGATIVE NUMBER");
+	printf("\n-------------------------------------\n");
+	int numberToCheckPosNeg = getIntNumber();
+	if (numberToCheckPosNeg == 0)
+		printf("\n0 is Nor Positive OR Negative");
+	else if (numberToCheckPosNeg > 0)
+		printf("\n%d is Positive Number", numberToCheckPosNeg);
+	else
+		printf("\n%d is Negative Number", numberToCheckPosNeg);
+}
+
+void checkOddEvenNumber()
+{
+	printf("\nFIND ODD OR EVEN NUMBER");
+	printf("\n----------------------------\n");
+	int numberToCheckOddEven = getIntNumber();
+	if (numberToCheckOddEven % 2 == 0)
+		printf("\n%d is Even Number", numberToCheckOddEven);
+	else
+		printf("\n%d is Odd Number", numberToCheckOddEven);
+}
+
+void checkPalindronNumber()
+{
+	printf("\nCHECK FOR PALINDRON NUMBER");
+	printf("\n--------------------------------\n");
+	int numberToCheckPalindron = getIntNumber();
+	int rev = 0;
+	int back = numberToCheckPalindron;
+	while (numberToCheckPalindron != 0)
+	{
+		rev = numberToCheckPalindron % 10 + rev * 10;
+		numberToCheckPalindron = numberToCheckPalindron / 10;
+	}
+	if (back == rev)
+		printf("\n%d is Palindron Number", rev);
+	else
+		printf("\n%d is Not Palindron Number", back);
+}
+
+void checkArmstrongNumber()
+{
+	printf("\nCHECK FOR ARMSTRONG NUMBER");
+	printf("\n-------------------------------\n");
+	int numberToCheckArmstrong = getIntNumber();
+	int sum = 0;
+	int back = numberToCheckArmstrong;
+	int count = 0;
+	while (numberToCheckArmstrong != 0)
+	{
+		numberToCheckArmstrong = numberToCheckArmstrong / 10;
+		count = count + 1;
+	}
+	numberToCheckArmstrong = back;
+	while (numberToCheckArmstrong != 0)
+	{
+		int rem = numberToCheckArmstrong % 10;
+		numberToCheckArmstrong = numberToCheckArmstrong / 10;
+		n1 = rem;
+
+		while (count != 0)
+		{
+
+			n1 = n1 * rem;
+			count = count - 1;
+		}
+		sum = sum + n1;
+	}
+	if (back == sum)
+		printf("\n%d is Armstrong Number And Sum = %d", back, sum);
+	else
+		printf("\n%d is Not Armstrong Number", back);
+}
+
+void printTable()
+{
+	printf("\nPRINT TABLE OF ANY NUMBER");
+	printf("\n------------------------------\n");
+	int tableNumber = getIntNumber();
+	for (int i = 1; 10 >= i; i++)
+		printf("\n%d X %.2d = %d", tableNumber, i, tableNumber * i);
+}
+
+void addTwoIntNumber()
+{
+	printf("\n\tADDITION OF 2 INTEGERS");
+	printf("\n-------------------------------------\n");
+	int addTwoIntNumArray[2];
+	getIntegerNumbers(addTwoIntNumArray, 2);
+	printf("\nAddition of %d and %d is %d", addTwoIntNumArray[0], addTwoIntNumArray[1], addTwoIntNumArray[0] + addTwoIntNumArray[1]);
+}
+
+void subTwoIntNumber()
+{
+	printf("\n\tSUBTRACTION OF 2 INTEGERS");
+	printf("\n---------------------------------------\n");
+	int subTwoIntNumArray[2];
+	getIntegerNumbers(subTwoIntNumArray, 2);
+	printf("\nSubtraction of %d and %d is %d", subTwoIntNumArray[0], subTwoIntNumArray[1], subTwoIntNumArray[0] - subTwoIntNumArray[1]);
+}
+
+void mulTwoIntNumber()
+{
+	printf("\n\tMULTIPLICATION OF 2 INTEGERS");
+	printf("\n----------------------------------------\n");
+	int mulTwoIntNumArray[2];
+	getIntegerNumbers(mulTwoIntNumArray, 2);
+	printf("\nMultiplication of %d and %d is %d", mulTwoIntNumArray[0], mulTwoIntNumArray[1], mulTwoIntNumArray[0] * mulTwoIntNumArray[1]);
+}
+
+void divTwoIntNumber()
+{
+	printf("\n\tDIVISION OF 2 INTEGERS");
+	printf("\n----------------------------------------\n");
+	int divTwoIntNumArray[2];
+	getIntegerNumbers(divTwoIntNumArray, 2);
+	printf("\nDivision of %d and %d is %d", divTwoIntNumArray[0], divTwoIntNumArray[1], divTwoIntNumArray[0] / divTwoIntNumArray[1]);
+}
+
+void greatestTwoIntNumber()
+{
+	printf("\nGREATEST OF 2 INTEGERS");
+	printf("\n-----------------------------\n");
+	int greatestTwoIntNumArray[2];
+	getIntegerNumbers(greatestTwoIntNumArray, 2);
+	if (greatestTwoIntNumArray[0] == greatestTwoIntNumArray[1])
+		printf("\nBoth Numbers Are Same");
+	else if (greatestTwoIntNumArray[0] > greatestTwoIntNumArray[1])
+		printf("\n%d is Greatest Number", greatestTwoIntNumArray[0]);
+	else
+		printf("\n%d is Greatest Number", greatestTwoIntNumArray[1]);
+}
+
+void greatestThreeIntNumber()
+{
+	printf("\nGREATEST OF 3 INTEGERS");
+	printf("\n-----------------------------\n");
+	int greatestThreeIntNumArray[3];
+	getIntegerNumbers(greatestThreeIntNumArray, 3);
+	if (greatestThreeIntNumArray[0] == greatestThreeIntNumArray[1] && greatestThreeIntNumArray[1] == greatestThreeIntNumArray[2])
+		printf("\nAll Numbers Are Same");
+	else if (greatestThreeIntNumArray[0] > greatestThreeIntNumArray[1] && greatestThreeIntNumArray[0] > greatestThreeIntNumArray[2])
+		printf("\n%d is Greatest Number", greatestThreeIntNumArray[0]);
+	else if (greatestThreeIntNumArray[1] > greatestThreeIntNumArray[2])
+		printf("\n%d is Greatest Number", greatestThreeIntNumArray[1]);
+	else
+		printf("\n%d is Greatest Number", greatestThreeIntNumArray[2]);
+}
+
+void addTwoDecNumber()
+{
+	printf("\n\tADDITION OF 2 FLOATS");
+	printf("\n-----------------------------------\n");
+	float addTwoDecNumArray[2];
+	getDecimalNumbers(addTwoDecNumArray, 2);
+	printf("\nAddition of %.2f and %.2f is %.2f", addTwoDecNumArray[0], addTwoDecNumArray[1], addTwoDecNumArray[0] + addTwoDecNumArray[1]);
+}
+
+void subTwoDecNumber()
+{
+	printf("\n\tSUBTRACTION OF 2 FLOATS");
+	printf("\n---------------------------------------\n");
+	float subTwoDecNumArray[2];
+	getDecimalNumbers(subTwoDecNumArray, 2);
+	printf("\nSubtraction of %.2f and %.2f is %.2f", subTwoDecNumArray[0], subTwoDecNumArray[1], subTwoDecNumArray[0] - subTwoDecNumArray[1]);
+}
+
+void divTwoDecNumber()
+{
+	printf("\n\tDIVISION OF 2 FLOATS");
+	printf("\n----------------------------------------\n");
+	float divTwoDecNumArray[2];
+	getDecimalNumbers(divTwoDecNumArray, 2);
+	printf("\nDivision of %.2f and %.2f is %.2f", divTwoDecNumArray[0], divTwoDecNumArray[1], divTwoDecNumArray[0] * divTwoDecNumArray[1]);
+}
+
+void greatestTwoDecNumber()
+{
+	printf("\nGREATEST OF 2 FLOATS");
+	printf("\n-----------------------------\n");
+	float greatestTwoDecNumArray[2];
+	getDecimalNumbers(greatestTwoDecNumArray, 2);
+	if (greatestTwoDecNumArray[0] == greatestTwoDecNumArray[1])
+		printf("\nBoth Numbers Are Same");
+	else if (greatestTwoDecNumArray[0] > greatestTwoDecNumArray[1])
+		printf("\n%.2f is Greatest Number", greatestTwoDecNumArray[0]);
+	else
+		printf("\n%.2f is Greatest Number", greatestTwoDecNumArray[1]);
+}
+
+void proceed()
+{
+	printf("\n\nEnter Any Key to Proceed...");
+	getch();
 }
